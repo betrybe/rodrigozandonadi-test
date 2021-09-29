@@ -9,6 +9,11 @@ app.get('/', (request, response) => {
 });
 // Não remover esse end-point, ele é necessário para o avaliador
 
+app.set('json spaces', 4);
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 consign({
   cwd: 'src',
   locale: 'pt-br',
