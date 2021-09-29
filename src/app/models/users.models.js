@@ -7,4 +7,7 @@ const UserSchema = new mongoose.Schema({
     role: String,
 }, { collation: 'users' });
 
-module.exports = { User: UserSchema };
+module.exports = { 
+    User: UserSchema,
+    Mongoose: mongoose,
+};
