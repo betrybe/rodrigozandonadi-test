@@ -3,8 +3,6 @@ import { body, validationResult } from 'express-validator';
 
 import UserService from '../services/users.services';
 
-// const Users = db.Mongoose.model('users', db.UserSchema, 'users');
-
 // eslint-disable-next-line max-lines-per-function
 module.exports = ((app) => {
     app.route('/users')        
@@ -37,7 +35,6 @@ module.exports = ((app) => {
                 console.log(erro);
             }); 
         next();
-    // eslint-disable-next-line comma-dangle
-    }
-); 
+        },
+    ); 
 }); 
