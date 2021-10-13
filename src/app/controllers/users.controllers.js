@@ -1,14 +1,15 @@
-import db from '../models/users.models';
+/* eslint-disable max-lines-per-function */
+import { body, validationResult } from 'express-validator';
 
-const { body, validationResult } = require('express-validator');
+import UserService from '../services/users.services';
 
-const Users = db.Mongoose.model('users', db.UserSchema, 'users');
+// const Users = db.Mongoose.model('users', db.UserSchema, 'users');
 
 // eslint-disable-next-line max-lines-per-function
 module.exports = ((app) => {
     app.route('/users')        
     .get(async (req, res, next) => {
-        await Users.find({}).lean().exec()
+        await UserService.find({})
         .then((data) => res.status(200).json({ users: data }))
         .catch((erro) => {
             res.status(500).json({ message: 'Deu ruim' });
@@ -23,19 +24,20 @@ module.exports = ((app) => {
         body('email').isEmail().withMessage('O email digitado não é válido.'),
         body('password').notEmpty().withMessage('O campo password é obrigatório'),
         async (req, res, next) => {
-            let { name, email, password } = req.body;
+            const { name, email, password } = req.body;
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
                 return res.status(400).json({ errors: errors.array() });
-            }
-            let users = new Users({ name, email, password });
-            await users.save()
-                .then((data) => res.status(200).json({ users: data }))
-                .catch((erro) => {
-                    res.status(500).json({ message: 'Deu ruim' });
-                    console.log(erro);
-                })
-            ; 
-            next();
-        });
-});
+            } 
+            await UserService.insert(name, email, password)
+            // eslint-disable-next-line no-shadow
+            .then((data) => res.status(201).json({ users: data }))
+            .catch((erro) => {
+                res.status(400).json({ message: 'Deu ruim' });
+                console.log(erro);
+            }); 
+        next();
+    // eslint-disable-next-line comma-dangle
+    }
+); 
+}); 

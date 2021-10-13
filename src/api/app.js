@@ -22,7 +22,7 @@ consign({
   extensions: ['.js'],
 })
 .include('database/db.js')
-.then('app')
+.then('app/controllers')
 .into(app);
 
 module.exports = app;
