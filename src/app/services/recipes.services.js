@@ -6,16 +6,26 @@ exports.find = async (query) => {
 };
 
 exports.findOne = async (id) => {
-    const recipes = await Recipes.findById(id).lean().exec();
-    return recipes;
+    const recipe = await Recipes.findById(id).lean().exec();
+    return recipe;
 };
 
 exports.insert = async (reqName, reqIngredients, reqPreparation) => {
-    const recipes = new Recipes({ 
+    const recipe = new Recipes({ 
         name: reqName,
         ingredients: reqIngredients,
         preparation: reqPreparation,
     });
-    const newRecipes = recipes.save();
-    return newRecipes;
+    const newRecipe = recipe.save();
+    return newRecipe;
+};
+
+// eslint-disable-next-line max-params
+exports.insertImage = async (reqId) => {
+    // eslint-disable-next-line no-undef
+    const newRecipe = await Recipes.findByIdAndUpdate(
+        { _id: reqId }, 
+        { image: `http://localhost:3000/src/uploads/${reqId}.jpeg` },
+    );
+    return newRecipe;
 };
