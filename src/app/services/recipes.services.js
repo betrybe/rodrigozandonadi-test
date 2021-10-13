@@ -29,3 +29,8 @@ exports.insertImage = async (reqId) => {
     );
     return newRecipe;
 };
+
+exports.findImage = async (id) => {
+    const recipes = await Recipes.findById(id).lean().exec();
+    return recipes;
+};

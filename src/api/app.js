@@ -1,5 +1,6 @@
 import express from 'express';
 import consign from 'consign';
+import path from 'path';
 
 const app = express();
 
@@ -13,6 +14,8 @@ app.set('json spaces', 4);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use('images', express.static(`${__dirname}uploads`));
 
 consign({
   cwd: 'src',

@@ -89,10 +89,12 @@ module.exports = ((app) => {
     );
     app.route('/images/:id.jpeg')
     .get(async (req, res, next) => {
-        await RecipeService.find({})
-        .then((data) => res.status(200).json({ recipes: data }))
+        await RecipeService.findImage(req.params.id)
+        .then((data) => {
+            res.status(200).set({ 'Content-Type': 'image/jpeg' }).send(`<img src="${data.image}">`);
+        })
         .catch((erro) => {
-            res.status(500).json({ message: 'Deu ruim' });
+            res.status(500).json({ message: 'Deu ruim' }); 
             console.log(erro);
         });
         next();
