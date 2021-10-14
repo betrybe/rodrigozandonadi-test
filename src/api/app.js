@@ -1,3 +1,7 @@
+/* eslint-disable object-shorthand */
+/* eslint-disable func-names */
+/* eslint-disable curly */
+/* eslint-disable prefer-arrow-callback */
 import express from 'express';
 import consign from 'consign';
 import 'dotenv/config';
