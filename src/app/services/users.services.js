@@ -19,6 +19,21 @@ exports.insert = async (reqName, reqEmail, reqPass) => {
     return newUser;
 };
 
+exports.insertAdmin = async (id, reqName, reqEmail, reqPass) => {
+    const search = await User.findById(id);
+    const role = search.role;
+    if (role === 'admin') {
+        const user = new User({ 
+            name: reqName,
+            email: reqEmail,
+            password: reqPass,
+            role: 'admin',
+        });
+        const newUser = user.save();
+        return newUser;
+    }
+};
+
 exports.authenticate = async ({ email, password }) => {
     const user = await User.findOne({ email });
     const pass = user.password;
