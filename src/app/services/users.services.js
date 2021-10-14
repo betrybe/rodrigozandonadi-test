@@ -1,3 +1,6 @@
+/* eslint-disable prefer-destructuring */
+import jwt from 'jsonwebtoken';
+
 const User = require('../models/users.models');
 
 exports.find = async (query) => {
@@ -6,12 +9,22 @@ exports.find = async (query) => {
 };
 
 exports.insert = async (reqName, reqEmail, reqPass) => {
-    const users = new User({ 
+    const user = new User({ 
         name: reqName,
         email: reqEmail,
         password: reqPass,
         role: 'user',
     });
-    const newUser = users.save();
+    const newUser = user.save();
     return newUser;
+};
+
+exports.authenticate = async ({ email, password }) => {
+    const user = await User.findOne({ email });
+    const pass = user.password;
+    if (user && pass === password) {
+        const id = user.id;
+        const token = jwt.sign({ id }, `${process.env.SECRET}`, { expiresIn: '7d' });
+        return token;
+    }
 };

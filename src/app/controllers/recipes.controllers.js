@@ -56,7 +56,6 @@ module.exports = ((app) => {
         body('name').notEmpty().withMessage('O campo name é obrigatório'),
         body('ingredients').notEmpty().withMessage('O campo ingredients é obrigatório'),
         body('preparation').notEmpty().withMessage('O campo preparation é obrigatório'),
-        verifyJWT,
         async (req, res, next) => {
             const { name, ingredients, preparation } = req.body;
             const errors = validationResult(req);
@@ -91,7 +90,6 @@ module.exports = ((app) => {
     app.route('/recipes/:id/image/') 
     .post(
         upload.single('image'),
-        verifyJWT,
         async (req, res, next) => {
             // eslint-disable-next-line prefer-destructuring
             const id = req.params.id;
